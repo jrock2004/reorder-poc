@@ -4,7 +4,7 @@ import { List } from './components/List';
 
 export type TItem = {
   id: string;
-  status: 'arrived' | 'no-show' | 'not-here';
+  status: 'Arrived' | 'No Show' | 'not-here';
   title: string;
 };
 
@@ -72,12 +72,12 @@ const mockItems: TItem[] = [
   },
   {
     id: '3',
-    status: 'arrived',
+    status: 'Arrived',
     title: 'John Crumpet',
   },
   {
     id: '4',
-    status: 'no-show',
+    status: 'No Show',
     title: 'Tiffany Chucker',
   },
 ];

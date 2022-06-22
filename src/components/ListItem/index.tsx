@@ -23,7 +23,11 @@ export const ListItem = ({ item, onClick }: TListtItem): ReactElement => {
           Check-in
         </button>
       ) : (
-        <span className={`text-sm ${status === 'arrived' ? 'text-green-700' : 'text-red-700'}`}>
+        <span
+          className={`text-sm font-semibold ${
+            status === 'Arrived' ? 'text-green-700' : 'text-red-700'
+          }`}
+        >
           {status}
         </span>
       )}
