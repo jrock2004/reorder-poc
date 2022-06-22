@@ -1,0 +1,28 @@
+{
+  "types": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "other",
+      "section": "Other Changes"
+    },
+    {
+      "type": "docs",
+      "section": "Other Changes"
+    },
+    {
+      "type": "style",
+      "section": "Other Changes"
+    },
+    {
+      "type": "refactor",
+      "section": "Internal"
+    }
+  ]
+}
