@@ -15,7 +15,7 @@ export const ListItem = ({ item, onClick }: TListtItem): ReactElement => {
       <span>{title}</span>
       {status === 'not-here' && onClick ? (
         <button
-          className="border px-4 py-1 rounded bg-blue-600 text-white text-sm"
+          className="border px-4 py-2 rounded bg-orange-600 text-white text-sm hover:bg-orange-500 hover:shadow-xl"
           data-itemid={item.id}
           data-trackid="checkin-btn"
           onClick={(): void => onClick(item.id)}

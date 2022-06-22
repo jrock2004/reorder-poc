@@ -36,7 +36,7 @@ const App = (): ReactElement => {
         <div className="mt-8 px-6 flex justify-between items-center border py-4 rounded shadow bg-slate-700">
           <div>
             <button
-              className="bg-blue-500 rounded shadow px-4 py-2 text-sm text-white hover:bg-blue-800 hover:text-white hover:shadow-xl"
+              className="bg-orange-600 rounded shadow px-4 py-2 text-sm text-white hover:bg-orange-500 hover:shadow-xl"
               data-trackid="reset-list"
               onClick={resetList}
             >
