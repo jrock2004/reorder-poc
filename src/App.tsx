@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ChangeEvent, ReactElement, useState } from 'react';
 
 import { List } from './components/List';
 
@@ -10,21 +10,25 @@ export type TItem = {
 
 const App = (): ReactElement => {
   const [items, setItems] = useState<TItem[]>(mockItems);
-  const [duration, setDuration] = useState(1.5);
+  const [duration, setDuration] = useState<string>('1.5');
 
   const resetList = (): void => {
     setItems(mockItems);
   };
 
-  const handleDurationChange = (event: any): void => {
+  const handleDurationChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    console.log(event.target.value.trim());
+
     setDuration(event.target.value.trim());
   };
 
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col gap-10">
-        <div className="border rounded px-6 py-3 shadow-slate-400 shadow-lg min-w-container">
-          <h1 className="text-3xl mb-8 font-semibold tracking-wider">Reorder List POC</h1>
+        <div className="border rounded px-6 py-3 shadow-slate-400 shadow-lg bg-slate-700 min-w-container">
+          <h1 className="text-3xl mb-8 font-semibold tracking-wider text-white">
+            Reorder List POC
+          </h1>
           <div>
             <List duration={duration} items={items} setItems={setItems} />
           </div>

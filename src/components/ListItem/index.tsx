@@ -11,7 +11,7 @@ export const ListItem = ({ item, onClick }: TListtItem): ReactElement => {
   const { title, status } = item;
 
   return (
-    <div className="border rounded-lg p-4 shadow flex justify-between items-center">
+    <div className="border rounded-lg p-4 bg-white shadow-xl flex justify-between items-center">
       <span>{title}</span>
       {status === 'not-here' && onClick ? (
         <button

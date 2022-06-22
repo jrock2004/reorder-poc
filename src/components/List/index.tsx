@@ -5,7 +5,7 @@ import { ListItem } from '../ListItem';
 import { TItem } from '../../App';
 
 export type TList = {
-  duration: number;
+  duration: string;
   items: TItem[];
   setItems: (items: TItem[]) => void;
 };
