@@ -21,8 +21,6 @@ const App = (): ReactElement => {
   };
 
   const handleDurationChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    console.log(event.target.value.trim());
-
     setDuration(event.target.value.trim());
   };
 

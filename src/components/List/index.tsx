@@ -1,6 +1,7 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { AnimatePresence, Reorder } from 'framer-motion';
 
+import { reOrderList } from '../../utils';
 import { ListItem } from '../ListItem';
 import { TItem } from '../../reorder';
 
@@ -10,16 +11,25 @@ export type TList = {
   setItems: (items: TItem[]) => void;
 };
 
-type TGroupList = {
-  id: number;
-  items: TItem[];
+const updateListItem = async (items: TItem[]): Promise<void> => {
+  fetch('/items', {
+    method: 'POST',
+    body: JSON.stringify(items),
+  });
 };
 
 export const List = ({ duration, items, setItems }: TList): ReactElement => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleCheckIn = (itemId: string): void => {
+    setIsLoading(true);
+
     const newArray: TItem[] = reOrderList(items, itemId);
 
-    setItems([...newArray]);
+    updateListItem(newArray).then((): void => {
+      setItems([...newArray]);
+      setIsLoading(false);
+    });
   };
 
   return (
@@ -42,7 +52,12 @@ export const List = ({ duration, items, setItems }: TList): ReactElement => {
                 value={item}
               >
                 {item.status.name === 'not-here' ? (
-                  <ListItem data-trackid="some-status" item={item} onClick={handleCheckIn} />
+                  <ListItem
+                    data-trackid="some-status"
+                    isLoading={isLoading}
+                    item={item}
+                    onClick={handleCheckIn}
+                  />
                 ) : (
                   <ListItem item={item} />
                 )}
@@ -53,50 +68,4 @@ export const List = ({ duration, items, setItems }: TList): ReactElement => {
       </Reorder.Group>
     </>
   );
-};
-
-const reOrderList = (items: TItem[], itemId?: string): TItem[] => {
-  const updateStatusList = [...items].map((item: TItem): TItem => {
-    if (item.id === itemId) {
-      item.status = {
-        id: '2',
-        name: 'Arrived',
-        order: 2,
-      };
-    }
-
-    return item;
-  });
-
-  const groupList = [...updateStatusList].reduce(
-    (groups: TGroupList[], currentItem: TItem): TGroupList[] => {
-      const currentStatus = currentItem.status.order;
-      const groupIndex =
-        groups.length > 0 ? groups.findIndex((a: TGroupList) => a.id === currentStatus) : -1;
-
-      if (groupIndex === -1) {
-        groups.push({
-          id: +currentStatus,
-          items: [currentItem],
-        });
-      } else {
-        groups[groupIndex].items.push(currentItem);
-
-        groups[groupIndex].items.sort((a: TItem, b: TItem): number =>
-          a.title.localeCompare(b.title)
-        );
-      }
-
-      return groups.sort((a: TGroupList, b: TGroupList): number => a.id - b.id);
-    },
-    []
-  );
-
-  const orderedList: TItem[] = [];
-
-  groupList.forEach((item: TGroupList): void => {
-    orderedList.push(...item.items);
-  });
-
-  return orderedList;
 };

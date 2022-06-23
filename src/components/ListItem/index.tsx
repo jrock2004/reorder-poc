@@ -1,13 +1,15 @@
 import { ReactElement } from 'react';
+import { RefreshIcon } from '@heroicons/react/solid';
 
 import { TItem } from '../../reorder';
 
 export type TListtItem = {
+  isLoading?: boolean;
   item: TItem;
   onClick?: (itemId: string) => void;
 };
 
-export const ListItem = ({ item, onClick }: TListtItem): ReactElement => {
+export const ListItem = ({ isLoading = false, item, onClick }: TListtItem): ReactElement => {
   const { title, status } = item;
 
   return (
@@ -18,12 +20,13 @@ export const ListItem = ({ item, onClick }: TListtItem): ReactElement => {
       </div>
       {status.name === 'not-here' && onClick ? (
         <button
-          className="border px-4 py-2 rounded bg-orange-600 text-white text-sm hover:bg-orange-500 hover:shadow-xl"
+          className="flex items-center gap-4 border px-4 py-2 rounded bg-orange-600 text-white text-sm hover:bg-orange-500 hover:shadow-xl"
           data-itemid={item.id}
           data-trackid="checkin-btn"
           onClick={(): void => onClick(item.id)}
         >
-          Check-in
+          {isLoading && <RefreshIcon className="w-4 h-4 animate-spin" />}
+          <span>Check-in</span>
         </button>
       ) : (
         <span

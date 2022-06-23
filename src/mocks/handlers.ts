@@ -1,17 +1,19 @@
 import { rest } from 'msw';
 
+import { TItem } from '../reorder';
 import { getItems } from './data';
+
+let listItems: TItem[] = getItems();
 
 export const handlers = [
   rest.get('/items', (_req, res, ctx) => {
-    return res(ctx.json(getItems()));
+    return res(ctx.json(listItems));
   }),
-  rest.post('/login', (req, res, ctx) => {
-    return res(
-      ctx.json({
-        id: '1',
-        name: 'John',
-      })
-    );
+  rest.post('/items', (req, res, ctx) => {
+    const reqBody = JSON.parse(req.body as string);
+
+    listItems = reqBody;
+
+    return res(ctx.json(reqBody));
   }),
 ];
