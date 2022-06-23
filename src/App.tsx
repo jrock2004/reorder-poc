@@ -1,24 +1,23 @@
-import { ChangeEvent, ReactElement, useState } from 'react';
+import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
+import { TItem } from './reorder';
 import { List } from './components/List';
 
-export type TItem = {
-  id: string;
-  initial: string;
-  status: {
-    id: string;
-    name: 'Arrived' | 'No Show' | 'not-here';
-    order: number;
-  };
-  title: string;
-};
-
 const App = (): ReactElement => {
-  const [items, setItems] = useState<TItem[]>([...mockItems]);
-  const [duration, setDuration] = useState<string>('1.5');
+  const { data, error } = useSWR('/items', fetcher);
+  const [items, setItems] = useState<TItem[]>([]);
+  const [duration, setDuration] = useState<string>('0.4');
+
+  useEffect(() => {
+    if (data) {
+      setItems(data);
+    }
+  }, [data, setItems]);
 
   const resetList = (): void => {
-    setItems([...mockItems]);
+    // eslint-disable-next-line
+    location.reload();
   };
 
   const handleDurationChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -34,9 +33,15 @@ const App = (): ReactElement => {
           <h1 className="text-3xl mb-8 font-semibold tracking-wider text-white">
             Reorder List POC
           </h1>
-          <div>
-            <List duration={duration} items={items} setItems={setItems} />
-          </div>
+          {!data && !error ? (
+            <div className="bg-white p-4 mb-8">
+              <h2>Is Loading</h2>
+            </div>
+          ) : (
+            <div>
+              <List duration={duration} items={items} setItems={setItems} />
+            </div>
+          )}
         </div>
         <div className="mt-8 px-6 flex justify-between items-center border py-4 rounded shadow bg-slate-700">
           <div>
@@ -64,57 +69,10 @@ const App = (): ReactElement => {
   );
 };
 
-const mockItems: TItem[] = [
-  {
-    id: '1',
-    initial: 'AH',
-    status: {
-      id: '1',
-      name: 'not-here',
-      order: 1,
-    },
-    title: 'Amy Herr',
-  },
-  {
-    id: '2',
-    initial: 'LS',
-    status: {
-      id: '1',
-      name: 'not-here',
-      order: 1,
-    },
-    title: 'Lisa Smith',
-  },
-  {
-    id: '3',
-    initial: 'LZ',
-    status: {
-      id: '1',
-      name: 'not-here',
-      order: 1,
-    },
-    title: 'Lisa Zachery',
-  },
-  {
-    id: '4',
-    initial: 'JC',
-    status: {
-      id: '2',
-      name: 'Arrived',
-      order: 2,
-    },
-    title: 'John Crumpet',
-  },
-  {
-    id: '5',
-    initial: 'TC',
-    status: {
-      id: '3',
-      name: 'No Show',
-      order: 3,
-    },
-    title: 'Tiffany Chucker',
-  },
-];
+const fetcher = async (input: RequestInfo, init?: RequestInit): Promise<TItem[]> => {
+  const res = await fetch(input, init);
+
+  return res.json();
+};
 
 export default App;

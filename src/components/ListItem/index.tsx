@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { TItem } from '../../App';
+import { TItem } from '../../reorder';
 
 export type TListtItem = {
   item: TItem;

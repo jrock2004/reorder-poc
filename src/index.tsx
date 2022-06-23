@@ -5,7 +5,9 @@ import './index.css';
 import { worker } from './mocks/browser';
 import App from './App';
 
-worker.start();
+worker.start({
+  onUnhandledRequest: 'bypass',
+});
 
 const container = document.getElementById('root');
 

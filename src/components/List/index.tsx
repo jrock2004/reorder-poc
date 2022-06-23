@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { AnimatePresence, Reorder } from 'framer-motion';
 
 import { ListItem } from '../ListItem';
-import { TItem } from '../../App';
+import { TItem } from '../../reorder';
 
 export type TList = {
   duration: string;
