@@ -4,16 +4,21 @@ import { List } from './components/List';
 
 export type TItem = {
   id: string;
-  status: 'Arrived' | 'No Show' | 'not-here';
+  initial: string;
+  status: {
+    id: string;
+    name: 'Arrived' | 'No Show' | 'not-here';
+    order: number;
+  };
   title: string;
 };
 
 const App = (): ReactElement => {
-  const [items, setItems] = useState<TItem[]>(mockItems);
+  const [items, setItems] = useState<TItem[]>([...mockItems]);
   const [duration, setDuration] = useState<string>('1.5');
 
   const resetList = (): void => {
-    setItems(mockItems);
+    setItems([...mockItems]);
   };
 
   const handleDurationChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -62,22 +67,52 @@ const App = (): ReactElement => {
 const mockItems: TItem[] = [
   {
     id: '1',
-    status: 'not-here',
+    initial: 'AH',
+    status: {
+      id: '1',
+      name: 'not-here',
+      order: 1,
+    },
     title: 'Amy Herr',
   },
   {
     id: '2',
-    status: 'not-here',
+    initial: 'LS',
+    status: {
+      id: '1',
+      name: 'not-here',
+      order: 1,
+    },
     title: 'Lisa Smith',
   },
   {
     id: '3',
-    status: 'Arrived',
-    title: 'John Crumpet',
+    initial: 'LZ',
+    status: {
+      id: '1',
+      name: 'not-here',
+      order: 1,
+    },
+    title: 'Lisa Zachery',
   },
   {
     id: '4',
-    status: 'No Show',
+    initial: 'JC',
+    status: {
+      id: '2',
+      name: 'Arrived',
+      order: 2,
+    },
+    title: 'John Crumpet',
+  },
+  {
+    id: '5',
+    initial: 'TC',
+    status: {
+      id: '3',
+      name: 'No Show',
+      order: 3,
+    },
     title: 'Tiffany Chucker',
   },
 ];
