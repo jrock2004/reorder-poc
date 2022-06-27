@@ -7,13 +7,23 @@ export type TListtItem = {
   isLoading?: boolean;
   item: TItem;
   onClick?: (itemId: string) => void;
+  useDrag: boolean;
 };
 
-export const ListItem = ({ isLoading = false, item, onClick }: TListtItem): ReactElement => {
+export const ListItem = ({
+  isLoading = false,
+  item,
+  onClick,
+  useDrag,
+}: TListtItem): ReactElement => {
   const { title, status } = item;
 
   return (
-    <div className="border rounded-lg p-4 bg-white shadow-xl flex justify-between items-center">
+    <div
+      className={`border rounded-lg p-4 bg-white shadow-xl flex justify-between items-center ${
+        useDrag ? 'hover:cursor-pointer' : ''
+      }`}
+    >
       <div className="flex gap-2 items-center">
         <span className="rounded-full border bg-green-50 p-2">{item.initial}</span>
         <span>{title}</span>

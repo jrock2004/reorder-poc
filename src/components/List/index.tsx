@@ -9,6 +9,7 @@ export type TList = {
   duration: string;
   items: TItem[];
   setItems: (items: TItem[]) => void;
+  useDrag: boolean;
 };
 
 const updateListItem = async (items: TItem[]): Promise<void> => {
@@ -18,7 +19,7 @@ const updateListItem = async (items: TItem[]): Promise<void> => {
   });
 };
 
-export const List = ({ duration, items, setItems }: TList): ReactElement => {
+export const List = ({ duration, items, setItems, useDrag }: TList): ReactElement => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCheckIn = (itemId: string): void => {
@@ -45,7 +46,7 @@ export const List = ({ duration, items, setItems }: TList): ReactElement => {
             return (
               <Reorder.Item
                 key={item.id}
-                dragListener={false}
+                dragListener={useDrag}
                 transition={{
                   duration: duration,
                 }}
@@ -56,10 +57,11 @@ export const List = ({ duration, items, setItems }: TList): ReactElement => {
                     data-trackid="some-status"
                     isLoading={isLoading}
                     item={item}
+                    useDrag={useDrag}
                     onClick={handleCheckIn}
                   />
                 ) : (
-                  <ListItem item={item} />
+                  <ListItem item={item} useDrag={useDrag} />
                 )}
               </Reorder.Item>
             );
