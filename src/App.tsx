@@ -17,16 +17,11 @@ const App = (): ReactElement => {
     }
   }, [data, setItems]);
 
-  const resetList = (): void => {
-    // eslint-disable-next-line
-    location.reload();
-  };
-
   const handleDurationChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setDuration(event.target.value.trim());
   };
 
-  const UpperRight = (): ReactElement => {
+  const ToggleDrag = (): ReactElement => {
     return (
       <div className="pt-2">
         <label className="inline-flex relative items-center cursor-pointer" htmlFor="orange-toggle">
@@ -46,32 +41,32 @@ const App = (): ReactElement => {
     );
   };
 
+  const FramerMotionControls = (): ReactElement => {
+    return (
+      <div className="mt-8 px-6 flex justify-between items-center border py-4 rounded shadow bg-slate-700">
+        <ToggleDrag />
+        <div>
+          <span className="text-sm mr-3 text-white">Duration:</span>
+          <input
+            className="border border-gray-400 px-3 py-2 shadow rounded text-xs text-gray-800 w-20 text-right focus:ring-blue-500 focus:border-blue-500"
+            data-trackid="duration-change"
+            placeholder="1.5"
+            value={duration}
+            onChange={handleDurationChange}
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col gap-10">
-        <Container title="Reorder List POC" upperRightHeader={<UpperRight />}>
-          <List duration={duration} items={items} setItems={setItems} useDrag={useDrag} />
-        </Container>
-        <div className="mt-8 px-6 flex justify-between items-center border py-4 rounded shadow bg-slate-700">
-          <div>
-            <button
-              className="bg-orange-600 rounded shadow px-4 py-2 text-sm text-white hover:bg-orange-500 hover:shadow-xl"
-              data-trackid="reset-list"
-              onClick={resetList}
-            >
-              Reset List
-            </button>
-          </div>
-          <div>
-            <span className="text-sm mr-3 text-white">Duration:</span>
-            <input
-              className="border border-gray-400 px-3 py-2 shadow rounded text-xs text-gray-800 w-20 text-right focus:ring-blue-500 focus:border-blue-500"
-              data-trackid="duration-change"
-              placeholder="1.5"
-              value={duration}
-              onChange={handleDurationChange}
-            />
-          </div>
+      <div>
+        <div className="flex flex-col gap-10">
+          <Container title="Reorder List POC">
+            <List duration={duration} items={items} setItems={setItems} useDrag={useDrag} />
+          </Container>
+          <FramerMotionControls />
         </div>
       </div>
     </div>
